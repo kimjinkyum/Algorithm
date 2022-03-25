@@ -1,0 +1,40 @@
+def make_sentance(result):
+    a = ""
+    for k in result:
+        if result[k] > 1:
+            a += (str(result[k]) + k)
+        else:
+            a += (k)
+    print(a)
+
+    return len(a)
+
+
+def solution(s):
+    answer = len(s)
+    d = len(s) // 2
+    while d >= 1:
+        result = ""
+        count = 1
+        prev = s[0:d]
+        for i in range(d, len(s), d):
+            next = s[i:i + d]
+            if next == prev:
+                count += 1
+            else:
+                if count > 1:
+                    result += str(count)
+                result += prev
+                prev = next
+                count = 1
+
+        if count > 1:
+            result += str(count)
+        result += prev
+
+
+        d -= 1
+        answer = min(len(result), answer)
+
+    return answer
+
