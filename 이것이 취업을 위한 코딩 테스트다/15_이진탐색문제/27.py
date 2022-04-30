@@ -55,5 +55,3 @@ if left == right:
     print(-1)
 else:
     print(right - left)
-
-print(count_by_value(data, x))
