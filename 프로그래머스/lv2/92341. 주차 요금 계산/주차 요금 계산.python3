@@ -1,0 +1,30 @@
+import math
+
+
+def solution(fees, records):
+    check = {}
+    last = 23 * 60 + 59
+    for r in records:
+        t, number, status = r.split()
+        time = int(t[0:2]) * 60 + int(t[3:])
+        if number not in check:
+            check[number] = (0, time, status)
+        if status == "IN":
+            check[number] = (check[number][0], time, status)
+        else:
+            total_time, in_time, _ = check[number]
+            total_time += time - in_time
+
+            check[number] = (total_time, time, status)
+
+    check = sorted(check.items(), key=lambda item: item[0])
+    answer = []
+    for n in check:
+        total_time, time, status = (n[1])
+        if status == "IN":
+            total_time += last - time
+        if total_time < fees[0]:
+            answer.append(fees[1])
+        else:
+            answer.append(math.ceil((total_time - fees[0])/fees[2]) * fees[3] + fees[1])
+    return answer
